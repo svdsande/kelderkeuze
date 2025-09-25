@@ -1,29 +1,25 @@
-import { TestBed } from '@angular/core/testing';
+import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let spectator: Spectator<AppComponent>;
+  const createComponent = createComponentFactory(AppComponent);
+
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
+    spectator = createComponent();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 
   it(`should have the 'frontend' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('frontend');
+    expect(spectator.component.title).toEqual('frontend');
   });
 
   it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
+    spectator.detectChanges();
+    const compiled = spectator.element;
     expect(compiled.querySelector('h1')?.textContent).toContain('Hello, frontend');
   });
 });
